@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos/index.css">
+    <title>Halloween</title>
+</head>
+<body>
+    
+    <header>
+        <img src="asserts/logo.jpeg">
+        <nav class="nav">
+            <ul>
+            <li>
+                <button class="btnInicio">Incio</button>
+            </li>
+            <li>
+                <button class="btnMonstruos">Monstruos</button>
+            </li>
+            <li>
+                <button>Blog</button>
+            </li>
+            <li>
+                <button>Contacto</button>
+            </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1 id="tituloForm">Cargar Montruo:</h1>
+        <section class="formCargarMonstruo" id="formMonstruos">
+            <form id="formCargarMonstruo">
+                <div class="input">
+                    <label for="frmNombre">Nombre:</label>
+                    <input type="text" placeholder="Ingrese el nombre" id="frmNombre">
+                </div>
+                <div class="input">
+                    <label for="frmAlias" class="labelIcono">Alias: 
+                        <img src="/asserts/alias.png">
+                    </label>
+                    <input type="text" id="frmAlias" placeholder="Ingrese el alter ego">
+                </div>
+                <div class="inputRange">
+                    <label for="frmMiedo" class="labelIcono">Miedo:</label>
+                    <div class="rangeIcono">
+                        <img src="/asserts/miedo.png">
+                        <input type="range" id="frmMiedo" min="0" max="100" step="1" value="50">
+                    </div>
+                </div>
+                <div class="input">
+                    <div>
+                        <label >Defensa:</label>
+                        <img src="/asserts/defensa.png">
+                        <br>
+                        <label>
+                            <input type="radio" name="frmDefensa" value="Pocion" id="pocion"> Pocion
+                        </label>
+                        <label>
+                            <input type="radio" name="frmDefensa" value="Crucifijo" id="crucifijo"> Crucifijo
+                        </label>
+                        <label>
+                            <input type="radio" name="frmDefensa" value="Estaca" id="estaca"> Estaca
+                        </label>
+                        <label>
+                            <input type="radio" name="frmDefensa" value="Plata" id="plata"> Plata
+                        </label>
+                    </div>
+                </div>
+                <div class="inputRange">
+                    <label for="frmTipo" class="labelIcono">Tipo:</label>
+                    <div class="rangeIcono">
+                        <img src="asserts/fantasma.png" class="icono">
+                        <select name="tipo" id="frmTipo"></select>
+                    </div>
+                </div>
+                <button type="submit" id="btnSubmitGuardar">
+                    <i class="fa-solid fa-floppy-disk"></i> Cargar
+                </button>
+                <button type="submit" id="btnSubmitEditar" style="visibility: hidden;">
+                    <i class="fa-solid fa-pen-to-square"></i> Editar
+                </button>
+                <button type="reset" id="btnReset">
+                    <i class="fa-sharp fa-solid fa-trash"></i>Limpiar
+                </button>
+            </form>
+        </section>
+        <section id="sectionTabla">
+            <div class="spinner" id="spinner" style="display: none;"> 
+                <img class="spinnerImg" id="spinner" src="/asserts/spinner1.png">
+            </div>
+            <article class="monstruo">
+                <table id="tablaMonstruos">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Alias</th>
+                        <th>Defensa</th>
+                        <th>Miedo</th>
+                        <th>Tipo</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </table>
+            </article> 
+        </section>
+        <section id="cardsMonstruos">
+            
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="nav">
+            <ul>
+                <li>
+                    <button class="btnInicio">Incio</button>
+                </li>
+                <li>
+                    <button class="btnMonstruos">Monstruos</button>
+                </li>
+                <li>
+                    <button>Blog</button>
+                </li>
+                <li>
+                    <button>Contacto</button>
+                </li>
+            </ul>
+        </div>
+        <p>Laboratorio III Todos los derechos reservados 2023&copy;</p>
+    </footer>
+
+    <script src="/models/personaje.js" type="module"></script>
+    <script src="/models/monstruo.js" type="module"></script>
+    <script src="https://kit.fontawesome.com/55e529e41d.js" crossorigin="anonymous"></script>
+</body>
+</html>
