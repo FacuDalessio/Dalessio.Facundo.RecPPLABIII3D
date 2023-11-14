@@ -9,7 +9,7 @@
 <body>
     
     <header>
-        <img src="asserts/logo.jpeg">
+        <img src="asserts/logo.jpeg" id="logo">
         <nav class="nav">
             <ul>
             <li>
@@ -34,19 +34,19 @@
             <form id="formCargarMonstruo">
                 <div class="input">
                     <label for="frmNombre">Nombre:</label>
-                    <input type="text" placeholder="Ingrese el nombre" id="frmNombre">
+                    <input type="text" placeholder="Ingrese el nombre" id="frmNombre" required>
                 </div>
                 <div class="input">
                     <label for="frmAlias" class="labelIcono">Alias: 
                         <img src="/asserts/alias.png">
                     </label>
-                    <input type="text" id="frmAlias" placeholder="Ingrese el alter ego">
+                    <input type="text" id="frmAlias" placeholder="Ingrese el alter ego" required>
                 </div>
                 <div class="inputRange">
                     <label for="frmMiedo" class="labelIcono">Miedo:</label>
                     <div class="rangeIcono">
                         <img src="/asserts/miedo.png">
-                        <input type="range" id="frmMiedo" min="0" max="100" step="1" value="50">
+                        <input type="range" id="frmMiedo" min="0" max="100" step="1" value="50" required>
                     </div>
                 </div>
                 <div class="input">
@@ -55,7 +55,7 @@
                         <img src="/asserts/defensa.png">
                         <br>
                         <label>
-                            <input type="radio" name="frmDefensa" value="Pocion" id="pocion"> Pocion
+                            <input type="radio" name="frmDefensa" value="Pocion" id="pocion" required> Pocion
                         </label>
                         <label>
                             <input type="radio" name="frmDefensa" value="Crucifijo" id="crucifijo"> Crucifijo
@@ -75,6 +75,21 @@
                         <select name="tipo" id="frmTipo"></select>
                     </div>
                 </div>
+                <div class="input">
+                    <label>Armas:</label>
+                      <label>
+                        <input type="checkbox" name="armas" value="cuchillo"> Cuchillo
+                      </label>
+                      <label>
+                        <input type="checkbox" name="armas" value="pistola"> Pistola
+                      </label>
+                      <label>
+                        <input type="checkbox" name="armas" value="hacha"> Hacha
+                      </label>
+                      <label>
+                        <input type="checkbox" name="armas" value="poderes"> Poderes
+                      </label>
+                  </div>
                 <button type="submit" id="btnSubmitGuardar">
                     <i class="fa-solid fa-floppy-disk"></i> Cargar
                 </button>
@@ -87,6 +102,7 @@
             </form>
         </section>
         <section id="sectionTabla">
+            <div id="alerta"></div>
             <div class="spinner" id="spinner" style="display: none;"> 
                 <img class="spinnerImg" id="spinner" src="/asserts/spinner1.png">
             </div>
@@ -98,6 +114,7 @@
                         <th>Defensa</th>
                         <th>Miedo</th>
                         <th>Tipo</th>
+                        <th>Armas</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
                     </tr>

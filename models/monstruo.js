@@ -1,12 +1,28 @@
 import { Personaje } from "./personaje.js";
 
 class Monstruo extends Personaje {
-  constructor(id, nombre, tipo, alias, defensa, miedo) {
+  constructor(id, nombre, tipo, alias, defensa, miedo, armas) {
     super(id, nombre, tipo);
     this.alias = alias;
     this.defensa = defensa;
     this.miedo = miedo;
+    this.armas = armas;
   }
+}
+
+function mostrarAlerta(mensaje) {
+  const alerta = document.createElement("div");
+  alerta.textContent = mensaje;
+
+  const contenedor = document.getElementById("alerta");
+  contenedor.appendChild(alerta);
+
+  setTimeout(() => {
+    alerta.style.opacity = "0";
+    setTimeout(() => {
+      contenedor.removeChild(alerta);
+    }, 500);
+  }, 3000);
 }
 
 const tipos = ["vampiro", "zombie", "esqueleto", "fantasma", "bruja"];
@@ -64,6 +80,17 @@ const setUpEventos = () => {
           radio.checked = false;
         }
       });
+
+      const armasInput = document.querySelectorAll('input[name="armas"]');
+  
+      monstruo.armas.forEach((arma) => {
+        const armasInputAux = Array.from(armasInput);
+        const checkbox = armasInputAux.find((input) => input.value == arma);
+        if (checkbox) {
+          checkbox.checked = true;
+        }
+      });
+
       const btnSubmitEditar = document.getElementById("btnSubmitEditar");
       btnSubmitEditar.dataset.monstruoId = monstruo.id;
     });
@@ -89,6 +116,7 @@ const setUpEventos = () => {
       localStorage.setItem("monstruos", JSON.stringify(listaMonstruos));
 
       crearTabla();
+      mostrarAlerta("Se Elimino correctamente");
     });
   });
 };
@@ -107,51 +135,56 @@ const crearTabla = () => {
   monstruos.forEach((monstruo) => {
     const fila = document.createElement("tr");
 
-    const celdaNombre = document.createElement("td");
-    celdaNombre.textContent = monstruo.nombre;
-    celdaNombre.id = "tdNombre";
+    const tdNombre = document.createElement("td");
+    tdNombre.textContent = monstruo.nombre;
+    tdNombre.id = "tdNombre";
 
-    const celdaAlias = document.createElement("td");
-    celdaAlias.textContent = monstruo.alias;
-    celdaAlias.id = "tdAlias";
+    const tdAlias = document.createElement("td");
+    tdAlias.textContent = monstruo.alias;
+    tdAlias.id = "tdAlias";
 
-    const celdaDefensa = document.createElement("td");
-    celdaDefensa.textContent = monstruo.defensa;
-    celdaDefensa.defensa = "tdDefensa";
+    const tdDefensa = document.createElement("td");
+    tdDefensa.textContent = monstruo.defensa;
+    tdDefensa.defensa = "tdDefensa";
 
-    const celdaMiedo = document.createElement("td");
-    celdaMiedo.textContent = monstruo.miedo;
-    celdaMiedo.miedo = "tdMiedo";
+    const tdMiedo = document.createElement("td");
+    tdMiedo.textContent = monstruo.miedo;
+    tdMiedo.miedo = "tdMiedo";
 
-    const celdaTipo = document.createElement("td");
-    celdaTipo.textContent = monstruo.tipo;
-    celdaTipo.tipo = "tdTipo";
+    const tdTipo = document.createElement("td");
+    tdTipo.textContent = monstruo.tipo;
+    tdTipo.tipo = "tdTipo";
 
-    const celdaEditar = document.createElement("td");
-    celdaEditar.id = "tdEditar";
+    const tdArmas = document.createElement("td");
+    tdArmas.textContent = monstruo.armas.join('  ');
+    tdArmas.id = 'tdArmas';
+
+    const tdEditar = document.createElement("td");
+    tdEditar.id = "tdEditar";
     const btnEditar = document.createElement("button");
     btnEditar.textContent = "Editar";
     btnEditar.id = "btnEditar";
     btnEditar.classList.add("btnEditar");
     btnEditar.dataset.monstruoId = monstruo.id;
-    celdaEditar.appendChild(btnEditar);
+    tdEditar.appendChild(btnEditar);
 
-    const celdaEliminar = document.createElement("td");
-    celdaEliminar.id = "tdEliminar";
+    const tdEliminar = document.createElement("td");
+    tdEliminar.id = "tdEliminar";
     const btnEliminar = document.createElement("button");
     btnEliminar.textContent = "Eliminar";
     btnEliminar.id = "btnEliminar";
     btnEliminar.classList.add("btnEliminar");
     btnEliminar.dataset.monstruoId = monstruo.id;
-    celdaEliminar.appendChild(btnEliminar);
+    tdEliminar.appendChild(btnEliminar);
 
-    fila.appendChild(celdaNombre);
-    fila.appendChild(celdaAlias);
-    fila.appendChild(celdaDefensa);
-    fila.appendChild(celdaMiedo);
-    fila.appendChild(celdaTipo);
-    fila.appendChild(celdaEditar);
-    fila.appendChild(celdaEliminar);
+    fila.appendChild(tdNombre);
+    fila.appendChild(tdAlias);
+    fila.appendChild(tdDefensa);
+    fila.appendChild(tdMiedo);
+    fila.appendChild(tdTipo);
+    fila.appendChild(tdArmas);
+    fila.appendChild(tdEditar);
+    fila.appendChild(tdEliminar);
 
     tablaMonstruos.appendChild(fila);
   });
@@ -221,11 +254,18 @@ const crearCards = () => {
     divMiedo.appendChild(imgMiedo);
     divMiedo.appendChild(miedo);
 
+    let divArmas = document.createElement("div");
+    // divArmas.id = "iconosCards";
+    let armas = document.createElement("p");
+    armas.textContent = monstruo.armas.join(' ');
+    divArmas.appendChild(armas);
+
     articleCard.appendChild(divNombre);
     articleCard.appendChild(divAlias);
     articleCard.appendChild(divTipo);
     articleCard.appendChild(divDefensa);
     articleCard.appendChild(divMiedo);
+    articleCard.appendChild(divArmas);
     sectionCards.appendChild(articleCard);
   });
 };
@@ -237,7 +277,8 @@ const guardarMonstruo = (
   defensa,
   miedo,
   listaMonstruos,
-  callback
+  callback,
+  armas
 ) => {
   mostrarSpinner();
   setTimeout(() => {
@@ -251,7 +292,7 @@ const guardarMonstruo = (
       localStorage.setItem("id", JSON.stringify(id));
     }
 
-    let monstruo = new Monstruo(id, nombre, tipo, alias, defensa, miedo);
+    let monstruo = new Monstruo(id, nombre, tipo, alias, defensa, miedo, armas);
 
     listaMonstruos.push(monstruo);
 
@@ -260,6 +301,7 @@ const guardarMonstruo = (
     callback(listaMonstruos);
 
     ocultarSpinner();
+    mostrarAlerta("Se guardo correctamente");
     return listaMonstruos;
   }, 2000);
 };
@@ -271,7 +313,8 @@ const editarMonstruo = (
   defensa,
   miedo,
   listaMonstruos,
-  callback
+  callback,
+  armas
 ) => {
   mostrarSpinner();
   console.log("muestro spinner");
@@ -287,7 +330,8 @@ const editarMonstruo = (
       tipo,
       alias,
       defensa,
-      miedo
+      miedo,
+      armas
     );
 
     listaMonstruos.splice(indiceMonstruo, 1, monstruo);
@@ -299,7 +343,7 @@ const editarMonstruo = (
 
     callback(listaMonstruos);
     ocultarSpinner();
-    console.log("oculto spinner");
+    mostrarAlerta("Se edito correctamente");
     return listaMonstruos;
   }, 2000);
 };
@@ -319,6 +363,14 @@ formulario.addEventListener("submit", (e) => {
     'input[name="frmDefensa"]:checked'
   ).value;
   const miedo = document.querySelector("#frmMiedo").value;
+  
+  const armas = Array.from(document.querySelectorAll('input[name="armas"]:checked'))
+    .map(input => input.value);
+
+    if (armas.length == 0) {
+      alert("Tiene que seleccionar un arma");
+      return;
+    }
 
   let listaMonstruos = JSON.parse(localStorage.getItem("monstruos")) || [];
 
@@ -334,7 +386,8 @@ formulario.addEventListener("submit", (e) => {
       defensa,
       miedo,
       listaMonstruos,
-      crearTabla
+      crearTabla,
+      armas
     );
   } else if (e.submitter === btnSubmitEditar) {
     listaMonstruos = editarMonstruo(
@@ -344,7 +397,8 @@ formulario.addEventListener("submit", (e) => {
       defensa,
       miedo,
       listaMonstruos,
-      crearTabla
+      crearTabla,
+      armas
     );
   }
 
@@ -385,5 +439,7 @@ botonesInicio.forEach((btnInicio) => {
     crearTabla();
   });
 });
+
+
 
 export { Monstruo };

@@ -51,6 +51,10 @@ img{
     display: flex;
     flex-direction: column;
   }
+
+  #logo{
+    visibility: hidden;
+  }
 }
 
 body{
@@ -233,4 +237,9 @@ th{
 .spinnerImg{
   width: 30%;
   margin-left: 30%;
+}
+
+#alerta{
+  color: white;
+  font-size: 30px;
 }
